@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
 
-# Llave obtenida desde el archivo .env (Token de GitHub Models)
+# Llave obtensida desde el archivo .env (Token de GitHub Models)
 GITHUB_PAT_TOKEN = os.getenv("GITHUB_PAT_TOKEN")
 if not GITHUB_PAT_TOKEN:
     raise ValueError("¡Error de seguridad! No se encontró GITHUB_PAT_TOKEN dentro del archivo .env")
