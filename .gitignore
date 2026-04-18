@@ -1,0 +1,27 @@
+# Entornos virtuales de Python
+.venv/
+venv/
+env/
+
+# Credenciales y variables de entorno
+.env
+*.env
+
+# Base de datos vectorial persistente (ChromaDB)
+chroma_db_local/
+chroma_db/
+*.sqlite3
+
+# Archivos de caché y compilados generados automáticamente
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Carpetas del IDE y ajustes
+.vscode/
+.idea/
+
+# Carpetas y archivos propios del Sistema Operativo
+.DS_Store
+Thumbs.db
