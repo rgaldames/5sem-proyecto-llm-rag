@@ -1,6 +1,11 @@
 import os
 import sys
 
+# Forzar codificación en la consola de Windows para evitar errores charmap con los emojis
+if hasattr(sys.stdout, 'encoding') and sys.stdout.encoding != 'utf-8':
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8')
+
 # ==== Configuración de Variables de Entorno ====
 from dotenv import load_dotenv
 
@@ -30,8 +35,9 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
 # Rutas de Archivos
-CSV_PATH = "./veterinary_clinical_data.csv"
-CHROMA_DB_DIR = "./chroma_db_local"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CSV_PATH = os.path.join(BASE_DIR, "veterinary_clinical_data.csv")
+CHROMA_DB_DIR = os.path.join(BASE_DIR, "chroma_db_local")
 
 def main():
     print("=== Inicializando el Agente de Inteligencia Artificial para la Veterinaria ===")
