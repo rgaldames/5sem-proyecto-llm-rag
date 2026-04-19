@@ -84,7 +84,7 @@ pip install sentence-transformers
 ---
 
 linea de ejecucion Terminal: 
-& c:/_RGS_DEV_Antigravity/AprendeTiempo/.venv/Scripts/python.exe c:/Users/ragal/.gemini/antigravity/scratch/rag_chatbot.py
+python.exe rag_chatbot.py
 
 
 
