@@ -5,20 +5,20 @@ Este proyecto implementa un agente conversacional basado en **Inteligencia Artif
 ## 🚀 Tecnologías Utilizadas
 
 ### 1. Framework Base: LangChain
-Toda la lógica del agente y la conexión entre módulos (Recuperación, Procesamiento y Generación) fue estructurada utilizando **LangChain** (`langchain`, `langchain-core` y `langchain-community`). Se utilizó explícitamente el enfoque moderno **LCEL (LangChain Expression Language)** para declarar flujos de datos transparentes y directos **(Criterio IE5 - Arquitectura Modular)**.
+Toda la lógica del agente y la conexión entre módulos (Recuperación, Procesamiento y Generación) fue estructurada utilizando **LangChain** (`langchain`, `langchain-core` y `langchain-community`). Se utilizó explícitamente el enfoque moderno **LCEL (LangChain Expression Language)** para declarar flujos de datos transparentes y directos.
 
 ### 2. Procesamiento de Lenguaje Genenativo (LLM)
 Se integró el proveedor **OpenAI** a través del endpoint de acceso asíncrono gratuito de **GitHub Models**. 
-El modelo designado fue `gpt-4o-mini`, invocado mediante la clase `ChatOpenAI`. A este modelo se le programó un rígido **Prompt de Sistema** para asegurar que su comportamiento se centre en brindar asistencia amigable, evitando riesgos clínicos mediante la **prohibición estricta de emitir diagnósticos** médicos **(Criterio IE2 y Criterio IE4 - Prompts y Coherencia Ética)**.
+El modelo designado fue `gpt-4o-mini`, invocado mediante la clase `ChatOpenAI`. A este modelo se le programó un rígido **Prompt de Sistema** para asegurar que su comportamiento se centre en brindar asistencia amigable, evitando riesgos clínicos mediante la **prohibición estricta de emitir diagnósticos** médicos.
 
 ### 3. Base de Datos Vectorial: ChromaDB (`langchain-chroma`)
-Se construyó una solución persistente en memoria local usando **ChromaDB**. Esta base almacena el conocimiento clínico de la veterinaria para ser consultado velozmente sin la necesidad de motores externos pesados, lo que optimiza la disponibilidad y abarata costos **(Criterio IE3 y IE7 - Mecanismos de Recuperación y Fundamento Organizacional)**.
+Se construyó una solución persistente en memoria local usando **ChromaDB**. Esta base almacena el conocimiento clínico de la veterinaria para ser consultado velozmente sin la necesidad de motores externos pesados, lo que optimiza la disponibilidad y abarata costos.
 
 ### 4. Embeddings 100% Locales (`sentence-transformers`)
 Dado que se trata de datos clínicos sensibles, la **vectorización de textos** (convertir las historias clínicas de `.csv` a su representación semántica) se procesó usando un modelo incrustado en el CPU local (`all-MiniLM-L6-v2` vía `HuggingFaceEmbeddings`). Esto nos protegió contra las saturaciones de límite por cuotas ("Rate Limits") que presentan APIs gratuitas, garantizando ingestiones ultrarrápidas de todo el historial.
 
 ### 5. Ingesta de Datos (`CSVLoader`)
-El conocimiento base del agente se extrae del archivo interno `veterinary_clinical_data.csv`. Se limitó a extraer las primeras 100 historias críticas para eficientar el arranque local **(Criterio IE3)**.
+El conocimiento base del agente se extrae del archivo interno `veterinary_clinical_data.csv`. Se limitó a extraer las primeras 100 historias críticas para eficientar el arranque local.
 
 ---
 
@@ -82,10 +82,9 @@ pip install sentence-transformers
 - **IE8 / IE9:** Se adjuntó un reporte narrativo técnico de arquitectura listos para acoplar al documento de conclusiones de investigación y diseño de sistema.
 ---
 
-linea de ejecucion: 
+linea de ejecucion Terminal: 
 & c:/_RGS_DEV_Antigravity/AprendeTiempo/.venv/Scripts/python.exe c:/Users/ragal/.gemini/antigravity/scratch/rag_chatbot.py
 
-& c:/_RGS_DEV_Antigravity/AprendeTiempo/.venv/Scripts/python.exe c:/Users/ragal/.gemini/antigravity/scratch/rag_chatbot.py
 
----
-*Desplegado con ❤️ para cumplir y superar el ecosistema de evaluación.*
+
+
