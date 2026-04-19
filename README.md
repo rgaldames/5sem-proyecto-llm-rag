@@ -18,7 +18,8 @@ Se construyó una solución persistente en memoria local usando **ChromaDB**. Es
 Dado que se trata de datos clínicos sensibles, la **vectorización de textos** (convertir las historias clínicas de `.csv` a su representación semántica) se procesó usando un modelo incrustado en el CPU local (`all-MiniLM-L6-v2` vía `HuggingFaceEmbeddings`). Esto nos protegió contra las saturaciones de límite por cuotas ("Rate Limits") que presentan APIs gratuitas, garantizando ingestiones ultrarrápidas de todo el historial.
 
 ### 5. Ingesta de Datos (`CSVLoader`)
-El conocimiento base del agente se extrae del archivo interno `veterinary_clinical_data.csv`. Se limitó a extraer las primeras 100 historias críticas para eficientar el arranque local.
+El conocimiento base del agente se extrae del archivo interno `veterinary_clinical_data.csv`. Se limitó a extraer las primeras 100 historias críticas para eficientar el arranque local. El dataset se obtiene desde Kaggle:
+https://www.kaggle.com/datasets/lolhaterbro/veteriary-clinical-dataset?resource=download
 
 ---
 
