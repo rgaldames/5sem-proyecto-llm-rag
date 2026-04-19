@@ -42,16 +42,14 @@ CHROMA_DB_DIR = os.path.join(BASE_DIR, "chroma_db_local")
 def main():
     print("=== Inicializando el Agente de Inteligencia Artificial para la Veterinaria ===")
 
-    # 1. Configuración de Modelos e Ingnesta de Datos
-    # Usamos la base_url apuntando al servicio de inferencia de GitHub porque se ingresó un GitHub PAT
-    # Si vas a usar una API KEY estándar de OpenAI, simplemente elimina el parámetro `base_url`
+    # Configuración de Modelos e Ingnesta de Datos
     llm = ChatOpenAI(
         model="gpt-4o-mini",
         temperature=0.3, # Baja temperatura para respuestas consistentes
         base_url="https://models.inference.ai.azure.com" 
     )
 
-    # Reemplazamos la API Limitada por modelos 100% locales
+    # Reemplazo la API Limitada por modelos 100% locales
     embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
     print(f"Cargando datos clñinicos desde {CSV_PATH}...")
@@ -79,7 +77,7 @@ def main():
     # Configuramos el Retriever para recuperar los 3 contextos más relevantes que alimentarán al LLM
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
-    # 4. Diseño del Prompt Ético y Contextual (IE2, IE4)
+    # 4. Diseño del Prompt Ético y Contextual
     # Este prompt actúa como "Sistema" dictando el comportamiento restringido y ético del agente.
     template = """Eres un experto y amigable asistente de inteligencia artificial para una clínica veterinaria. 
 Tu objetivo es responder de forma clara y sencilla las preguntas de los dueños de mascotas. 
@@ -102,7 +100,7 @@ Respuesta del Asistente Veterinario:"""
     def format_docs(docs):
         return "\n\n".join(doc.page_content for doc in docs)
 
-    # 5. Construcción de Arquitectura y Cadena de Ejecución (LCEL - LangChain Expression Language) (IE5)
+    # 5. Construcción de Arquitectura y Cadena de Ejecución (LCEL - LangChain Expression Language)
     rag_chain = (
         {"context": retriever | format_docs, "question": RunnablePassthrough()}
         | custom_rag_prompt
@@ -125,7 +123,7 @@ Respuesta del Asistente Veterinario:"""
                 continue
 
             print("Pensando...")
-            # Aquí es donde ocurre todo el RAG
+            # Ocurre todo con el RAG
             response = rag_chain.invoke(user_input)
             
             print("\n🐶🐾 Chatbot Veterinario dice:")
