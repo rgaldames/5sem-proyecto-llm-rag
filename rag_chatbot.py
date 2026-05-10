@@ -126,7 +126,7 @@ Respuesta del Asistente Veterinario:"""
             # Ocurre todo con el RAG
             response = rag_chain.invoke(user_input)
             
-            print("\n🐶🐾 Chatbot Veterinario dice:")
+            print("\n Chatbot Veterinario dice:")
             print(response)
             print("-" * 50)
             

@@ -1,5 +1,5 @@
 """
-agent.py — Agente Funcional Veterinario (Evaluación Parcial 2)
+agent.py  Agente Funcional Veterinario (Evaluación Parcial 2)
 =============================================================
 Implementa un agente funcional usando la API moderna de LangChain 1.2+
 basada en LangGraph (create_agent con tool-calling loop).
@@ -10,28 +10,28 @@ Arquitectura:
   - Herramientas: consulta (RAG), escritura (JSONL), razonamiento (reglas)
   - Memoria: corto plazo (buffer de mensajes) + largo plazo (embeddings JSON)
 
-IL2.1 — Herramientas de consulta, escritura y razonamiento
-IL2.2 — Memoria de corto y largo plazo
-IL2.3 — Planificación y toma de decisiones adaptativas
-IL2.4 — Documentación técnica y orquestación de componentes
+IL2.1  Herramientas de consulta, escritura y razonamiento
+IL2.2  Memoria de corto y largo plazo
+IL2.3  Planificación y toma de decisiones adaptativas
+IL2.4  Documentación técnica y orquestación de componentes
 
 Flujo de Orquestación:
   Usuario
-    → Recuperar contexto largo plazo (MemoryStore)
-    → Construir historial + system prompt contextual
-    → Agente (LLM + herramientas en loop)
-        ↓ LLM decide si llamar herramienta
-        ↓ [search_clinical_db | write_visit_summary | analyze_symptoms]
-        ↓ Observación → LLM decide continuar o responder
-    → Respuesta final
-    → Guardar en corto plazo (buffer) + largo plazo (embeddings)
+     Recuperar contexto largo plazo (MemoryStore)
+     Construir historial + system prompt contextual
+     Agente (LLM + herramientas en loop)
+         LLM decide si llamar herramienta
+         [search_clinical_db | write_visit_summary | analyze_symptoms]
+         Observación  LLM decide continuar o responder
+     Respuesta final
+     Guardar en corto plazo (buffer) + largo plazo (embeddings)
 """
 
 import os
 import sys
 from dotenv import load_dotenv
 
-# ── 1. CONFIGURACIÓN DE ENTORNO ─────────────────────────────────────────────
+# -- 1. CONFIGURACIÓN DE ENTORNO ---------------------------------------------
 load_dotenv()
 GITHUB_PAT_TOKEN = os.getenv("GITHUB_PAT_TOKEN")
 if not GITHUB_PAT_TOKEN:
@@ -39,7 +39,7 @@ if not GITHUB_PAT_TOKEN:
 
 os.environ["OPENAI_API_KEY"] = GITHUB_PAT_TOKEN
 
-# ── 2. IMPORTACIONES ────────────────────────────────────────────────────────
+# -- 2. IMPORTACIONES --------------------------------------------------------
 from langchain_openai import ChatOpenAI
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.document_loaders.csv_loader import CSVLoader
@@ -51,12 +51,12 @@ from tools import make_search_tool, write_visit_summary, analyze_symptoms
 from memory_store import MemoryStore
 from short_term_memory import ShortTermMemory
 
-# ── 3. RUTAS DE ARCHIVOS ────────────────────────────────────────────────────
+# -- 3. RUTAS DE ARCHIVOS ----------------------------------------------------
 CSV_PATH      = "./veterinary_clinical_data.csv"
 CHROMA_DB_DIR = "./chroma_db_local"
 MEMORY_PATH   = "./memories.json"
 
-# ── 4. SYSTEM PROMPT DEL AGENTE ─────────────────────────────────────────────
+# -- 4. SYSTEM PROMPT DEL AGENTE ---------------------------------------------
 # Prompt simplificado para evitar que el LLM entre en loops de tool-calling.
 # El modelo decide POR SÍ MISMO si necesita o no llamar una herramienta.
 SYSTEM_PROMPT = """Eres VetBot, un asistente de inteligencia artificial para una clinica veterinaria.
@@ -249,7 +249,7 @@ def main():
     print("Agente listo! (Escribe 'salir' para terminar | 'estado' para ver memoria)\n")
     print("-" * 65)
 
-    # ── Bucle principal de interaccion ──────────────────────────────────────
+    # -- Bucle principal de interaccion --------------------------------------
     while True:
         try:
             user_input = input("\nUsuario: ").strip()

@@ -1,10 +1,10 @@
 """
-tools.py — Herramientas del Agente Veterinario
+tools.py  Herramientas del Agente Veterinario
 =============================================
 Define las tres categorías de herramientas que el agente ReAct puede invocar:
-  1. CONSULTA  → search_clinical_db: busca en ChromaDB historiales clínicos
-  2. ESCRITURA → write_visit_summary: genera y guarda un resumen de consulta
-  3. RAZONAMIENTO → analyze_symptoms: razona sobre síntomas y decide si es urgente
+  1. CONSULTA   search_clinical_db: busca en ChromaDB historiales clínicos
+  2. ESCRITURA  write_visit_summary: genera y guarda un resumen de consulta
+  3. RAZONAMIENTO  analyze_symptoms: razona sobre síntomas y decide si es urgente
 
 Cada herramienta es un LangChain StructuredTool (usa @tool decorator).
 """
@@ -16,9 +16,9 @@ import uuid
 from langchain_core.tools import tool
 
 
-# ──────────────────────────────────────────────────
-# HERRAMIENTA 1: CONSULTA (IE1 – Herramienta RAG)
-# ──────────────────────────────────────────────────
+# --------------------------------------------------
+# HERRAMIENTA 1: CONSULTA (IE1  Herramienta RAG)
+# --------------------------------------------------
 def make_search_tool(vectorstore):
     """Fábrica: retorna la herramienta de búsqueda enlazada al vectorstore activo."""
 
@@ -49,9 +49,9 @@ def make_search_tool(vectorstore):
     return search_clinical_db
 
 
-# ──────────────────────────────────────────────────────────
-# HERRAMIENTA 2: ESCRITURA (IE1 – Herramienta de Escritura)
-# ──────────────────────────────────────────────────────────
+# ----------------------------------------------------------
+# HERRAMIENTA 2: ESCRITURA (IE1  Herramienta de Escritura)
+# ----------------------------------------------------------
 SUMMARIES_PATH = "./visit_summaries.jsonl"
 
 @tool
@@ -85,17 +85,17 @@ def write_visit_summary(patient_name: str, species: str, concern: str, advice_gi
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
         return (
-            f"✅ Resumen guardado exitosamente para {patient_name} ({species}).\n"
+            f"[OK] Resumen guardado exitosamente para {patient_name} ({species}).\n"
             f"ID de registro: {record['id']}\n"
             f"Fecha: {record['timestamp']}"
         )
     except Exception as e:
-        return f"❌ Error al guardar el resumen: {str(e)}"
+        return f"[ERROR] Error al guardar el resumen: {str(e)}"
 
 
-# ──────────────────────────────────────────────────────────────────────
-# HERRAMIENTA 3: RAZONAMIENTO (IE1 – Herramienta de Toma de Decisiones)
-# ──────────────────────────────────────────────────────────────────────
+# ----------------------------------------------------------------------
+# HERRAMIENTA 3: RAZONAMIENTO (IE1  Herramienta de Toma de Decisiones)
+# ----------------------------------------------------------------------
 # Síntomas que indican urgencia veterinaria inmediata
 URGENT_SYMPTOMS = [
     "convulsión", "convulsiones", "desmayo", "pérdida de consciencia",
@@ -137,13 +137,13 @@ def analyze_symptoms(symptoms_description: str) -> str:
     found_urgent = [s for s in URGENT_SYMPTOMS if s in desc_lower]
     if found_urgent:
         return (
-            f"🚨 NIVEL DE URGENCIA: CRÍTICO\n"
+            f"[CRITICO] NIVEL DE URGENCIA: CRÍTICO\n"
             f"Síntomas detectados que requieren atención inmediata: {', '.join(found_urgent)}.\n\n"
             f"ACCIÓN REQUERIDA: Llevar a la mascota a una clínica veterinaria de emergencias "
             f"AHORA MISMO. No esperes. Mientras trasladas al animal, mantén la calma, "
             f"no le des medicamentos sin indicación veterinaria, y si sangra, aplica presión "
             f"suave con un paño limpio.\n\n"
-            f"⚠️ Este bot NO puede reemplazar atención médica de emergencia."
+            f"[AVISO] Este bot NO puede reemplazar atención médica de emergencia."
         )
 
     # Regla 2: Detección de síntomas moderados
@@ -152,7 +152,7 @@ def analyze_symptoms(symptoms_description: str) -> str:
         count = len(found_moderate)
         priority = "ALTA" if count >= 3 else "MODERADA"
         return (
-            f"⚠️ NIVEL DE URGENCIA: {priority}\n"
+            f"[AVISO] NIVEL DE URGENCIA: {priority}\n"
             f"Síntomas identificados: {', '.join(found_moderate)}.\n\n"
             f"PLAN RECOMENDADO:\n"
             f"1. Monitorea al animal de cerca las próximas 12-24 horas.\n"
@@ -160,17 +160,17 @@ def analyze_symptoms(symptoms_description: str) -> str:
             f"3. Ofrece comida blanda y en porciones pequeñas si tiene problemas digestivos.\n"
             f"4. Agenda una cita veterinaria dentro de las próximas 24-48 horas.\n"
             f"5. Si los síntomas empeoran, acude a urgencias.\n\n"
-            f"📋 Puedo buscar información clínica relevante en nuestra base de datos si necesitas más detalles."
+            f" Puedo buscar información clínica relevante en nuestra base de datos si necesitas más detalles."
         )
 
     # Regla 3: Sin síntomas de alerta detectados
     return (
-        f"✅ NIVEL DE URGENCIA: LEVE / SIN ALERTA INMEDIATA\n"
+        f"[OK] NIVEL DE URGENCIA: LEVE / SIN ALERTA INMEDIATA\n"
         f"No se detectaron síntomas de alta urgencia en la descripción proporcionada.\n\n"
         f"RECOMENDACIONES GENERALES:\n"
         f"1. Mantén la rutina de alimentación y ejercicio habitual.\n"
         f"2. Asegura que las vacunas y desparasitaciones estén al día.\n"
         f"3. Si tienes dudas específicas, puedo consultar la base de datos clínica de la veterinaria.\n"
         f"4. Agenda chequeos preventivos cada 6-12 meses.\n\n"
-        f"💡 ¿Hay algo específico en lo que pueda orientarte hoy?"
+        f" ¿Hay algo específico en lo que pueda orientarte hoy?"
     )

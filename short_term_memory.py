@@ -1,5 +1,5 @@
 """
-short_term_memory.py — Memoria de Corto Plazo Conversacional
+short_term_memory.py  Memoria de Corto Plazo Conversacional
 ============================================================
 Implementa el componente de memoria de corto plazo del agente usando un buffer
 de ventana deslizante que mantiene las ultimas N interacciones en contexto activo.

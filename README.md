@@ -59,7 +59,7 @@ pip install langchain-community==0.4.1
 pip install langchain-openai==1.1.14
 pip install langchain-chroma==1.1.0
 
-# Embeddings locales (HuggingFace — no requiere API key)
+# Embeddings locales (HuggingFace  no requiere API key)
 pip install sentence-transformers==5.4.1
 
 # Utilidades
@@ -82,9 +82,9 @@ GITHUB_PAT_TOKEN=tu_github_personal_access_token
 
 **Cómo obtener el token de GitHub Models:**
 
-1. Ir a [github.com](https://github.com) → Click en tu avatar → **Settings**
-2. Menú lateral → **Developer settings**
-3. **Personal access tokens** → **Tokens (classic)**
+1. Ir a [github.com](https://github.com)  Click en tu avatar  **Settings**
+2. Menú lateral  **Developer settings**
+3. **Personal access tokens**  **Tokens (classic)**
 4. Click en **Generate new token (classic)**
 5. Dale un nombre (ej: `VetBot-LLM`) y selecciona sin permisos especiales
 6. Copia el token generado y pégalo en el `.env`
@@ -97,22 +97,22 @@ GITHUB_PAT_TOKEN=tu_github_personal_access_token
 
 ```
 5sem-proyecto-llm-rag/
-│
-├── agent.py                     <- Agente principal (Tool-Calling Loop + orquestación)
-├── tools.py                     <- 3 herramientas: consulta, escritura, razonamiento
-├── short_term_memory.py         <- Memoria de corto plazo (buffer deslizante k=5)
-├── memory_store.py              <- Memoria de largo plazo (JSON + embeddings semánticos)
-├── rag_chatbot.py               <- Chatbot RAG original (Evaluación Parcial 1)
-├── read_pdf.py                  <- Utilidad de lectura de PDFs
-│
-├── veterinary_clinical_data.csv <- Base de conocimiento clínica (50+ registros usados)
-├── memories.json                <- Memorias persistentes entre sesiones (se genera solo)
-├── visit_summaries.jsonl        <- Registro de consultas guardadas (se genera solo)
-├── chroma_db_local/             <- Base de datos vectorial ChromaDB (se genera sola)
-│
-├── .env                         <- Credenciales (NO subir a GitHub — en .gitignore)
-├── .gitignore
-└── README.md
+|
+|-- agent.py                     <- Agente principal (Tool-Calling Loop + orquestación)
+|-- tools.py                     <- 3 herramientas: consulta, escritura, razonamiento
+|-- short_term_memory.py         <- Memoria de corto plazo (buffer deslizante k=5)
+|-- memory_store.py              <- Memoria de largo plazo (JSON + embeddings semánticos)
+|-- rag_chatbot.py               <- Chatbot RAG original (Evaluación Parcial 1)
+|-- read_pdf.py                  <- Utilidad de lectura de PDFs
+|
+|-- veterinary_clinical_data.csv <- Base de conocimiento clínica (50+ registros usados)
+|-- memories.json                <- Memorias persistentes entre sesiones (se genera solo)
+|-- visit_summaries.jsonl        <- Registro de consultas guardadas (se genera solo)
+|-- chroma_db_local/             <- Base de datos vectorial ChromaDB (se genera sola)
+|
+|-- .env                         <- Credenciales (NO subir a GitHub  en .gitignore)
+|-- .gitignore
++-- README.md
 ```
 
 > Los archivos `memories.json`, `visit_summaries.jsonl` y la carpeta `chroma_db_local/` se crean automáticamente la primera vez que ejecutas el agente.
@@ -198,7 +198,7 @@ python rag_chatbot.py
 |      |                                                           |
 |      v                                                           |
 |  +---------------------------------------------------------------+|
-|  |      create_agent() — LangGraph Tool-Calling Loop            ||
+|  |      create_agent()  LangGraph Tool-Calling Loop            ||
 |  |                                                               ||
 |  |  LLM decide si usar herramienta o responder directamente     ||
 |  |                                                               ||
@@ -227,7 +227,7 @@ python rag_chatbot.py
 
 ## Descripción de Componentes
 
-### `agent.py` — Orquestador Principal
+### `agent.py`  Orquestador Principal
 
 Punto de entrada del sistema. Inicializa todos los módulos y ejecuta el bucle de interacción.
 
@@ -236,7 +236,7 @@ Punto de entrada del sistema. Inicializa todos los módulos y ejecuta el bucle d
 - Integra memoria dual en cada invocación mediante `run_agent()`
 - Inyecta el contexto de largo plazo directamente en el mensaje de entrada
 
-### `tools.py` — Herramientas del Agente
+### `tools.py`  Herramientas del Agente
 
 Define las tres herramientas que el agente puede invocar de forma autónoma:
 
@@ -246,7 +246,7 @@ Define las tres herramientas que el agente puede invocar de forma autónoma:
 | `write_visit_summary` | **ESCRITURA** | Persiste consultas en `visit_summaries.jsonl` para auditoría |
 | `analyze_symptoms` | **RAZONAMIENTO** | Clasifica síntomas como CRÍTICOS / MODERADOS / LEVES por reglas |
 
-### `short_term_memory.py` — Memoria de Corto Plazo
+### `short_term_memory.py`  Memoria de Corto Plazo
 
 Buffer de ventana deslizante implementado con `HumanMessage` / `AIMessage` de `langchain_core`.
 
@@ -254,7 +254,7 @@ Buffer de ventana deslizante implementado con `HumanMessage` / `AIMessage` de `l
 - Se resetea al terminar cada sesión
 - Compatible nativamente con la API de mensajes de LangChain 1.2
 
-### `memory_store.py` — Memoria de Largo Plazo
+### `memory_store.py`  Memoria de Largo Plazo
 
 Almacenamiento persistente entre sesiones usando embeddings semánticos y similitud coseno.
 
@@ -290,7 +290,7 @@ Input del usuario
 
 | Consulta del usuario | Herramienta elegida | Razón |
 |---|---|---|
-| "Mi perro tuvo una convulsión" | `analyze_symptoms` | Detecta síntoma crítico → alerta urgencia |
+| "Mi perro tuvo una convulsión" | `analyze_symptoms` | Detecta síntoma crítico  alerta urgencia |
 | "¿Qué tratamientos usan para otitis?" | `search_clinical_db` | Busca en historiales clínicos |
 | "Gracias, mi gato se llama TOM" | `write_visit_summary` | Registra el cierre de la consulta |
 | "¿Cuántas veces al día debo alimentar a un gatito?" | *(sin herramienta)* | El LLM responde directamente |
@@ -344,7 +344,7 @@ El proyecto ya tiene este comportamiento corregido en el system prompt de `agent
 
 ### El modelo de embeddings tarda mucho en cargar
 
-Normal en la primera ejecución — descarga `all-MiniLM-L6-v2` (~90 MB) desde HuggingFace. En ejecuciones siguientes se carga desde caché local en segundos.
+Normal en la primera ejecución  descarga `all-MiniLM-L6-v2` (~90 MB) desde HuggingFace. En ejecuciones siguientes se carga desde caché local en segundos.
 
 ### Warning: `HuggingFaceEmbeddings was deprecated`
 
@@ -390,7 +390,7 @@ LangChain AI. (2024). *LangChain 1.2 documentation: Agents*. https://python.lang
 
 LangGraph. (2024). *LangGraph: Build stateful, multi-actor applications with LLMs*. https://langchain-ai.github.io/langgraph/
 
-Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., ... & Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. *Advances in Neural Information Processing Systems, 33*, 9459–9474. https://doi.org/10.48550/arXiv.2005.11401
+Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., ... & Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. *Advances in Neural Information Processing Systems, 33*, 94599474. https://doi.org/10.48550/arXiv.2005.11401
 
 Reimers, N., & Gurevych, I. (2019). Sentence-BERT: Sentence embeddings using Siamese BERT-networks. *Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing*. https://doi.org/10.48550/arXiv.1908.10084
 
@@ -402,6 +402,6 @@ Hugging Face. (2023). *Sentence Transformers: all-MiniLM-L6-v2*. https://hugging
 
 ---
 
-*Desplegado con proposito academico — Ingenieria de Soluciones con IA, 2026.*
+*Desplegado con proposito academico  Ingenieria de Soluciones con IA, 2026.*
 
 *por Ricardo A. Galdames Soto*
