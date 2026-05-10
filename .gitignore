@@ -25,3 +25,10 @@ __pycache__/
 # Carpetas y archivos propios del Sistema Operativo
 .DS_Store
 Thumbs.db
+
+# Archivos generados en runtime por el agente
+memories.json
+visit_summaries.jsonl
+
+# Informe HTML (se entrega como PDF, no en el repo)
+informe_ep2.html
